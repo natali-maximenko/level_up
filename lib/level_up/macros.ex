@@ -13,4 +13,15 @@ defmodule LevelUp.Macros do
       if match?(unquote(pattern), unquote(code)), do: true, else: unquote(message)
     end
   end
+
+  defmacro inspect_caller(msg) do
+    quote do
+      info = unquote(Macro.escape(__CALLER__))
+      {function, arity} = info.function
+
+      IO.inspect(unquote(msg),
+        label: "called from #{function}/#{arity} in module #{info.module} on line #{info.line}"
+      )
+    end
+  end
 end
