@@ -4,11 +4,11 @@ defmodule LevelUp.MacrosTest do
 
   describe "case_if/1" do
     test "when condition truelly" do
-      assert LevelUp.Macros.case_if(:world == :world)
+      assert :ok == LevelUp.Macros.case_if(:world == :world, do: :ok, else: :error)
     end
 
     test "when condition falsey" do
-      refute LevelUp.Macros.case_if(:hello == :world)
+      refute LevelUp.Macros.case_if(:hello == :world, do: true, else: false)
     end
   end
 

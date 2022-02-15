@@ -1,9 +1,9 @@
 defmodule LevelUp.Macros do
-  defmacro case_if(condition) do
+  defmacro case_if(condition, do: true_block, else: false_block) do
     quote do
       case unquote(condition) do
-        true -> true
-        false -> false
+        true -> unquote(true_block)
+        false -> unquote(false_block)
       end
     end
   end
