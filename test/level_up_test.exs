@@ -6,7 +6,7 @@ defmodule LevelUpTest do
     assert LevelUp.hello() == :world
   end
 
-  test "contact emil" do
+  test "contact email" do
     assert LevelUp.contact_email() == "test@elixirschool.com"
   end
 end
