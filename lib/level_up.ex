@@ -2,6 +2,7 @@ defmodule LevelUp do
   @moduledoc """
   Documentation for `LevelUp`.
   """
+  use LevelUp.InfoModule
   require LevelUp.Macros
 
   @doc """
