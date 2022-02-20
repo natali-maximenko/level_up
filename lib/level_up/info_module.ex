@@ -3,6 +3,7 @@ defmodule LevelUp.InfoModule do
     quote do
       import unquote(__MODULE__)
       @before_compile unquote(__MODULE__)
+      @after_compile unquote(__MODULE__)
 
       def print_env, do: IO.inspect(__ENV__)
     end
@@ -17,11 +18,11 @@ defmodule LevelUp.InfoModule do
     end
   end
 
-  defmacro __after_compile__(env, _opts) do
+  defmacro __after_compile__(_env, _opts) do
     quote do
-      def iex_defined? do
-        info = unquote(Macro.escape(env))
-        info.file == "iex"
+      case __ENV__.file do
+        "iex" -> IO.puts("Definded in IEX")
+        file -> IO.puts("Defined in #{file}")
       end
     end
   end

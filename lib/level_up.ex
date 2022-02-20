@@ -2,8 +2,8 @@ defmodule LevelUp do
   @moduledoc """
   Documentation for `LevelUp`.
   """
+  # require LevelUp.Macros
   use LevelUp.InfoModule
-  require LevelUp.Macros
 
   @doc """
   Hello world.
@@ -29,6 +29,7 @@ defmodule LevelUp do
   Contact email.
   """
   def contact_email do
-    Application.fetch_env!(:level_up, :contact_email) |> LevelUp.Macros.inspect_caller()
+    # |> LevelUp.Macros.inspect_caller()
+    Application.fetch_env!(:level_up, :contact_email)
   end
 end
