@@ -4,7 +4,7 @@ defmodule LevelUp.InfoModule do
       import unquote(__MODULE__)
       @before_compile unquote(__MODULE__)
       @after_compile unquote(__MODULE__)
-      # @on_definition {unquote(__MODULE__), :log}
+      @on_definition {LevelUp.InfoModule, :log}
 
       def print_env, do: IO.inspect(__ENV__)
     end
@@ -20,7 +20,7 @@ defmodule LevelUp.InfoModule do
   end
 
   defmacro __after_compile__(_env, _opts) do
-    IO.inspect(__ENV__.module.__info__(:macros))
+    # IO.inspect(__ENV__.module.__info__(:macros))
 
     quote do
       case __ENV__.file do
@@ -31,13 +31,9 @@ defmodule LevelUp.InfoModule do
   end
 
   # Unlike other hooks, @on_definition will only invoke functions and never macros
-  # def log(env, kind, name, args, guards, body) do
-  #   IO.inspect(env)
-  #   IO.puts("Defining #{kind} named #{name} with args:")
-  #   IO.inspect(args)
-  #   IO.puts("and guards")
-  #   IO.inspect(guards)
-  #   IO.puts("and body")
-  #   IO.puts(Macro.to_string(body))
-  # end
+  def log(_env, :defmacro, _name, _args, _guards, _body), do: IO.puts("Macros!")
+
+  def log(_env, kind, name, _args, _guards, _body) do
+    IO.puts("Defining #{kind} named #{name}")
+  end
 end
