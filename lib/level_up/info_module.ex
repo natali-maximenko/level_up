@@ -1,10 +1,19 @@
+defmodule LogModule do
+  def log_macro(_env, :defmacro, name, _args, _guards, body) do
+    IO.puts("Defining macros named #{name}")
+    IO.puts("and body")
+    IO.puts(Macro.to_string(body))
+  end
+end
+
 defmodule LevelUp.InfoModule do
+  @on_definition {LogModule, :log_macro}
+
   defmacro __using__(_options) do
     quote do
       import unquote(__MODULE__)
       @before_compile unquote(__MODULE__)
       @after_compile unquote(__MODULE__)
-      @on_definition {LevelUp.InfoModule, :log}
 
       def print_env, do: IO.inspect(__ENV__)
     end
@@ -20,20 +29,11 @@ defmodule LevelUp.InfoModule do
   end
 
   defmacro __after_compile__(_env, _opts) do
-    # IO.inspect(__ENV__.module.__info__(:macros))
-
     quote do
       case __ENV__.file do
         "iex" -> IO.puts("Definded in IEX")
         file -> IO.puts("Defined in #{file}")
       end
     end
-  end
-
-  # Unlike other hooks, @on_definition will only invoke functions and never macros
-  def log(_env, :defmacro, _name, _args, _guards, _body), do: IO.puts("Macros!")
-
-  def log(_env, kind, name, _args, _guards, _body) do
-    IO.puts("Defining #{kind} named #{name}")
   end
 end
